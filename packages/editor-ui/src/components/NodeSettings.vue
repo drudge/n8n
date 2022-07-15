@@ -23,6 +23,13 @@
 		</div>
 		<div class="node-parameters-wrapper" v-if="node && nodeValid">
 			<div v-show="openPanel === 'params'">
+				<div v-if="isHTTPRequestNode(nodeType)" class="parameter-item parameter-notice">
+					<n8n-notice
+						:content="$locale.baseText('nodeSettings.importCurlCommandCallout')"
+						@action="displayImportCurlDialog"
+					/>
+					<import-curl-dialog :dialogVisible="importCurlDialogVisible" @closeDialog="closeImportCurlDialog" @valueChanged="importCurlCommand"></import-curl-dialog>
+				</div>
 				<node-webhooks
 					:node="node"
 					:nodeType="nodeType"
@@ -91,6 +98,7 @@ import { nodeHelpers } from '@/components/mixins/nodeHelpers';
 
 import mixins from 'vue-typed-mixins';
 import NodeExecuteButton from './NodeExecuteButton.vue';
+import ImportCurlDialog from './ImportCurlDialog.vue';
 
 export default mixins(
 	externalHooks,
@@ -107,6 +115,7 @@ export default mixins(
 			NodeSettingsTabs,
 			NodeWebhooks,
 			NodeExecuteButton,
+			ImportCurlDialog,
 		},
 		computed: {
 			nodeType (): INodeTypeDescription | null {
@@ -185,6 +194,8 @@ export default mixins(
 				nodeValid: true,
 				nodeColor: null,
 				openPanel: 'params',
+				importCurlDialogVisible: false,
+				command: '',
 				nodeValues: {
 					color: '#ff0000',
 					alwaysOutputData: false,
@@ -298,6 +309,16 @@ export default mixins(
 			},
 		},
 		methods: {
+			closeImportCurlDialog () {
+				this.importCurlDialogVisible = false;
+			},
+			displayImportCurlDialog () {
+				this.importCurlDialogVisible = true;
+			},
+			importCurlCommand (command: string) {
+				//this.valueChanged(value);
+				console.log(command);
+			},
 			onWorkflowActivate() {
 				this.$emit('activate');
 			},

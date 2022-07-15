@@ -47,6 +47,10 @@ export const nodeHelpers = mixins(
 				return Object.keys(node.parameters).includes('nodeCredentialType');
 			},
 
+			isHTTPRequestNode (nodeType: INodeTypeDescription | null): boolean {
+				return nodeType ? nodeType.name === 'n8n-nodes-base.httpRequest' : false;
+			},
+
 			isCustomApiCallSelected (nodeValues: INodeParameters): boolean {
 				const { parameters } = nodeValues;
 
