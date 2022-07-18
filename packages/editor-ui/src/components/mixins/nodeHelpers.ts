@@ -47,8 +47,16 @@ export const nodeHelpers = mixins(
 				return Object.keys(node.parameters).includes('nodeCredentialType');
 			},
 
-			isHTTPRequestNode (nodeType: INodeTypeDescription | null): boolean {
-				return nodeType ? nodeType.name === 'n8n-nodes-base.httpRequest' : false;
+			isNewHTTPRequestNode (nodeType: INodeTypeDescription | null, nodeValues: INodeParameters): boolean {
+				if (!nodeType) return false;
+				if (nodeType.name !== 'n8n-nodes-base.httpRequest') {
+					return false;
+				}
+				const { parameters } = nodeValues || {};
+
+				if (!isObjectLiteral(parameters)) return false;
+
+				return parameters.url === '';
 			},
 
 			isCustomApiCallSelected (nodeValues: INodeParameters): boolean {

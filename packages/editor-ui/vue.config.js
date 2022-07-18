@@ -5,10 +5,10 @@ module.exports = {
 		config.resolve.symlinks(false);
 		// config.plugins.delete("prefetch"); // enable when language package grows
 	},
-	// transpileDependencies: [
-	//   // 'node_modules/quill'
-	//   /\/node_modules\/quill\//
-	// ]
+	transpileDependencies: [
+	  '@drudge/curlconverter'
+	//   /\/node_modules\/@drudge\/curlconverter/
+	],
 	pluginOptions: {
 		webpackBundleAnalyzer: {
 			openAnalyzer: false,

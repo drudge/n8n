@@ -23,12 +23,12 @@
 		</div>
 		<div class="node-parameters-wrapper" v-if="node && nodeValid">
 			<div v-show="openPanel === 'params'">
-				<div v-if="isHTTPRequestNode(nodeType)" class="parameter-item parameter-notice">
+				<div v-if="isNewHTTPRequestNode(nodeType, nodeValues)" class="parameter-item parameter-notice">
 					<n8n-notice
 						:content="$locale.baseText('nodeSettings.importCurlCommandCallout')"
 						@action="displayImportCurlDialog"
 					/>
-					<import-curl-dialog :dialogVisible="importCurlDialogVisible" @closeDialog="closeImportCurlDialog" @valueChanged="importCurlCommand"></import-curl-dialog>
+					<import-curl-dialog :dialogVisible="importCurlDialogVisible" @closeDialog="closeImportCurlDialog" @import="importCurlCommand"></import-curl-dialog>
 				</div>
 				<node-webhooks
 					:node="node"
@@ -315,9 +315,16 @@ export default mixins(
 			displayImportCurlDialog () {
 				this.importCurlDialogVisible = true;
 			},
-			importCurlCommand (command: string) {
-				//this.valueChanged(value);
-				console.log(command);
+			importCurlCommand (parameters: string) {
+				const parsed = JSON.parse(parameters);
+				Object.keys(parsed).forEach((key) => {
+					this.valueChanged({
+						name: `parameters.${key}`,
+						key: `parameters.${key}`,
+						value: parsed[key],
+					});
+				});
+				//this.valueChanged(parsed);
 			},
 			onWorkflowActivate() {
 				this.$emit('activate');

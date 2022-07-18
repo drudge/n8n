@@ -24,6 +24,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@drudge/curlconverter": "^4.0.0",
     "@fontsource/open-sans": "^4.5.0",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "luxon": "^2.3.0",
@@ -78,8 +79,8 @@
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "n8n-workflow": "~0.108.0",
     "monaco-editor-webpack-plugin": "^5.0.0",
+    "n8n-workflow": "~0.108.0",
     "normalize-wheel": "^1.0.1",
     "prismjs": "^1.17.1",
     "quill": "^2.0.0-dev.3",

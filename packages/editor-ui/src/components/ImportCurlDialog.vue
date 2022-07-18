@@ -5,7 +5,7 @@
 			<div class="ignore-key-press">
 				<n8n-input-label :label="$locale.baseText('nodeSettings.importCurlCommand')">
 					<div @keydown.stop @keydown.esc="onKeyDownEsc()">
-						<n8n-input v-model="tempValue" type="textarea" ref="inputField" :value="value" placeholder="curl https://api.test.com -u 'user:password'" @change="valueChanged" @keydown.stop="noOp" :rows="15" />
+						<n8n-input v-model="tempValue" type="textarea" ref="inputField" :value="value" placeholder="curl https://api.test.com -u 'user:password'" @keydown.stop="noOp" :rows="15" />
 					</div>
 				</n8n-input-label>
 			</div>
@@ -36,7 +36,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
-// import curlconverter from '@drudge/curlconverter';
+import curlconverter from '@drudge/curlconverter';
 
 
 export default Vue.extend({
@@ -52,7 +52,7 @@ export default Vue.extend({
 	},
 	methods: {
 		valueChanged (value: string) {
-			this.$emit('valueChanged', value);
+			//this.$emit('valueChanged', value);
 		},
 
 		onKeyDownEsc () {
@@ -69,13 +69,15 @@ export default Vue.extend({
 			return false;
 		},
 
-		async importCurlCommand () {
+		importCurlCommand () {
 			// TODO: convert curl. if errors, show them in the dialog
 			//const result = await curlconverter.toN8n(this.tempValue);
 			// if no errors, emit the converted command and close the dialog
 			//console.log(result);
-			//this.$emit('import', result);
-			return this.closeDialog();
+			curlconverter.toN8n(this.tempValue).then(result => {
+				this.$emit('valueChanged', result);
+				this.closeDialog();
+			});
 		},
 	},
 	mounted () {
